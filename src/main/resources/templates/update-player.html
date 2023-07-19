@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Jugador</title>
+</head>
+<body>
+    <h1>Modificar Jugador</h1>
+    <form action="/players/{id}" method="put">
+        <label for="name">Nuevo Nombre:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>
