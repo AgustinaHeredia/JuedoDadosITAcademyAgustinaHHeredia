@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{plantilla/template :: head}">
 <meta charset="ISO-8859-1">
 <title>Página de inicio</title>
 </head>
 <body>
-	<h1>Hola desde la aplicación</h1>
+	<header th:replace="~{plantilla/template :: header}"></header>
+	<h1>Bienvenido al juego de dados</h1>
+	<footer th:replace="~{plantilla/template :: footer}"></footer>
 </body>
 </html>

@@ -6,9 +6,14 @@
 </head>
 <body>
     <h1>Modificar Jugador</h1>
-    <form action="/players/{id}" method="put">
+    <form action="/game/players/{id}" method="post">
+        <!-- Utilizamos el atributo "th:method" para especificar que es una solicitud PUT -->
+        <input type="hidden" name="_method" th:value="PUT">
+        <!-- Usamos el atributo "th:object" para obtener el jugador y su ID desde el modelo -->
+        <input type="hidden" th:object="${player}" th:value="*{id}">
         <label for="name">Nuevo Nombre:</label>
-        <input type="text" id="name" name="name" required>
+        <!-- Usamos el atributo "th:field" para enlazar el input con el nombre del jugador en el modelo -->
+        <input type="text" id="name" th:field="${player.name}" required>
         <button type="submit">Guardar</button>
     </form>
 </body>

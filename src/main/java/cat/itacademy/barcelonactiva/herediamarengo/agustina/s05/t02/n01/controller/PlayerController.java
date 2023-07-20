@@ -12,54 +12,77 @@ import cat.itacademy.barcelonactiva.herediamarengo.agustina.s05.t02.n01.model.se
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/game")
 public class PlayerController {
 
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public ModelAndView showHomePage() {
         return new ModelAndView("home");
     }
 
-    
-    @PostMapping("/create")
-    public ResponseEntity<?> createPlayer(@ModelAttribute Player player) {
+    @PostMapping("/players")
+    public ModelAndView createPlayer(@ModelAttribute Player player) {
         playerService.createPlayer(player);
-        return ResponseEntity.ok("Player created successfully");
+        ModelAndView modelAndView = new ModelAndView("created-successfully");
+        modelAndView.addObject("player", player);
+        return modelAndView;
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/players/{id}")
     public ResponseEntity<?> updatePlayer(@PathVariable Long id, @RequestParam String name) {
         playerService.updatePlayerName(id, name);
         return ResponseEntity.ok("Player updated successfully");
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletePlayer(@PathVariable Long id) {
-        playerService.deletePlayer(id);
-        return ResponseEntity.ok("Player deleted successfully");
+    @PostMapping("/players/{id}/games")
+    public ResponseEntity<?> playGame(@PathVariable Long id) {
+        // Lógica para realizar el tirón de los dados por el jugador con el ID especificado
+        return ResponseEntity.ok("Dice rolled successfully");
     }
 
-    @GetMapping("/getOne/{id}")
-    public ResponseEntity<Player> getPlayer(@PathVariable Long id) {
-        Player player = playerService.getPlayer(id);
-        return ResponseEntity.ok(player);
+    @DeleteMapping("/players/{id}/games")
+    public ResponseEntity<?> deleteGames(@PathVariable Long id) {
+        // Lógica para eliminar las tiradas del jugador con el ID especificado
+        return ResponseEntity.ok("Player's games deleted successfully");
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/players")
     public ResponseEntity<List<Player>> getAllPlayers() {
         List<Player> players = playerService.getAllPlayers();
         return ResponseEntity.ok(players);
     }
 
-    @GetMapping("/players")
-    public ModelAndView showAllPlayers() {
-        List<Player> players = playerService.getAllPlayers();
-        ModelAndView modelAndView = new ModelAndView("player-list");
-        modelAndView.addObject("players", players);
-        return modelAndView;
+    @GetMapping("/players/{id}/games")
+    public ResponseEntity<?> getPlayerGames(@PathVariable Long id) {
+        // Lógica para obtener las jugadas del jugador con el ID especificado
+        return ResponseEntity.ok("List of player's games");
+    }
+
+    @GetMapping("/players/ranking")
+    public ResponseEntity<?> getRanking() {
+        // Lógica para obtener el ranking medio de todos los jugadores
+        return ResponseEntity.ok("Ranking of all players");
+    }
+
+    @GetMapping("/players/ranking/loser")
+    public ResponseEntity<?> getLoser() {
+        // Lógica para obtener al jugador con peor porcentaje de éxito
+        return ResponseEntity.ok("Player with worst success rate");
+    }
+
+    @GetMapping("/players/ranking/winner")
+    public ResponseEntity<?> getWinner() {
+        // Lógica para obtener al jugador con mejor porcentaje de éxito
+        return ResponseEntity.ok("Player with best success rate");
+    }
+
+    @GetMapping("/players/{id}")
+    public ResponseEntity<Player> getPlayer(@PathVariable Long id) {
+        Player player = playerService.getPlayer(id);
+        return ResponseEntity.ok(player);
     }
 
     @GetMapping("/create")
@@ -67,7 +90,7 @@ public class PlayerController {
         return new ModelAndView("create-player");
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/update-form/{id}")
     public ModelAndView showUpdatePlayerForm(@PathVariable Long id) {
         Player player = playerService.getPlayer(id);
         ModelAndView modelAndView = new ModelAndView("update-player");
@@ -75,7 +98,7 @@ public class PlayerController {
         return modelAndView;
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/delete-form/{id}")
     public ModelAndView showDeletePlayerConfirmation(@PathVariable Long id) {
         Player player = playerService.getPlayer(id);
         ModelAndView modelAndView = new ModelAndView("delete-player");
